@@ -19,10 +19,29 @@ const combinationsHandler = (a, b, ...c) =>
 
 const express = require('express')
 const fs = require('fs')
+const path = require('path');
 const app = express()
 const port = process.env.PORT || 4000
 app.use(express.json())
 const mostUsedEnglishWords = fs.readFileSync('./1-1000.txt', 'utf-8').split('\n');
+
+/////HEROKU SETUP///////////////
+////MIDDLEWARE
+const whitelist = ['http://localhost:3000', 'http://localhost:4000']
+const corsOptions = {
+    origin: function (origin, callback) {
+        console.log("** Origin of request " + origin)
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            console.log("Origin acceptable")
+            callback(null, true)
+        } else {
+            console.log("Origin rejected")
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+app.use(cors(corsOptions))
+////////////////////////////////
 
 app.post('/convert', (req, res) => {
     const inputValue = req.body.value
@@ -31,14 +50,23 @@ app.post('/convert', (req, res) => {
     numbers.forEach(num => stringsArray.push(numbersToLetters[num]))
     const combinations = combinationsHandler(...stringsArray)
     const words = combinations.map(comb => mostUsedEnglishWords.filter(word => word.includes(comb))).filter(el => el.length > 0)
-    
+
     const data = {
         combinations,
         words
     }
     res.status(200).send(data)
 })
-
+/////HEROKU SETUP///////////////
+if (process.env.NODE_ENV === 'production') {
+    // Serve any static files
+    app.use(express.static(path.join(__dirname, 'client/build')));
+    // Handle React routing, return all requests to React app
+    app.get('*', function (req, res) {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    });
+}
+////////////////////////////////
 
 app.listen(port, () => {
     console.log(`App running on port ${port}...`)
