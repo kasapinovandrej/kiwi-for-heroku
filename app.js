@@ -22,6 +22,7 @@ const fs = require('fs')
 const path = require('path');
 const app = express()
 const port = process.env.PORT || 4000
+const cors = require('cors')
 app.use(express.json())
 const mostUsedEnglishWords = fs.readFileSync('./1-1000.txt', 'utf-8').split('\n');
 
