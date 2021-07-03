@@ -1,0 +1,18 @@
+.keyboard {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+}
+.buttonsbox {
+  display: flex;
+  flex-wrap: wrap;
+}
+.buttonbox {
+  flex-grow: 1;
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

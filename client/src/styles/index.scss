@@ -1,0 +1,17 @@
+@import "./variables";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+  font-family: "Nanum Gothic", sans-serif;
+  @media only screen and (max-width: $breakpoints-lg) {
+    font-size: 70%;
+  }
+}
+body {
+  background: $background;
+  color: $color1;
+}
