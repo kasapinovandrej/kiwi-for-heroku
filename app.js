@@ -28,7 +28,7 @@ const mostUsedEnglishWords = fs.readFileSync('./1-1000.txt', 'utf-8').split('\n'
 
 /////HEROKU SETUP///////////////
 ////MIDDLEWARE
-const whitelist = ['http://localhost:3000', 'http://localhost:4000']
+const whitelist = ['http://localhost:3000', 'http://localhost:4000', 'https://cryptic-refuge-02825.herokuapp.com']
 const corsOptions = {
     origin: function (origin, callback) {
         console.log("** Origin of request " + origin)
